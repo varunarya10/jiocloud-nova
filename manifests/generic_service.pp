@@ -21,7 +21,8 @@ define nova::generic_service(
 
 
 
-  if $enabled == 'true' {
+#  if $enabled == 'true' {
+  if $enabled {
     $service_ensure = 'running'
   } else {
     $service_ensure = 'stopped'
