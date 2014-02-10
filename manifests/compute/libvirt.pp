@@ -52,18 +52,21 @@ class nova::compute::libvirt (
     }
   }
 
+if !defined(Package[$::nova::params::libvirt_package_name]) {
   package { 'libvirt':
     ensure => present,
     name   => $::nova::params::libvirt_package_name,
   }
+}
 
+if !defined(Service[$::nova::params::libvirt_service_name]) {
   service { 'libvirt' :
     ensure   => running,
     name     => $::nova::params::libvirt_service_name,
     provider => $::nova::params::special_service_provider,
     require  => Package['libvirt'],
   }
-
+}
   nova_config {
     'DEFAULT/compute_driver':   value => 'libvirt.LibvirtDriver';
     'DEFAULT/libvirt_type':     value => $libvirt_type;
