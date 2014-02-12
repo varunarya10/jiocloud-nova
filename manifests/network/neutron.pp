@@ -98,10 +98,12 @@ class nova::network::neutron (
     'DEFAULT/neutron_admin_username':          value => $neutron_admin_username;
     'DEFAULT/neutron_admin_password':          value => $neutron_admin_password, secret => true;
     'DEFAULT/neutron_admin_auth_url':          value => $neutron_admin_auth_url;
-    'DEFAULT/neutron_ovs_bridge':              value => $neutron_ovs_bridge;
-    'DEFAULT/neutron_extension_sync_interval': value => $neutron_extension_sync_interval;
+## ovs_bridge is not required for contrail
+#    'DEFAULT/neutron_ovs_bridge':              value => $neutron_ovs_bridge;
+#    'DEFAULT/neutron_extension_sync_interval': value => $neutron_extension_sync_interval;
     'DEFAULT/security_group_api':              value => $security_group_api;
-    'DEFAULT/firewall_driver':                 value => $firewall_driver;
+## firewall_Driver is not required for contrail
+#    'DEFAULT/firewall_driver':                 value => $firewall_driver;
   }
 
   if ! $neutron_ca_certificates_file {
