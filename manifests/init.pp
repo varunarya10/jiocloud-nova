@@ -332,7 +332,6 @@ class nova(
   }
 
   if $rpc_backend == 'nova.rpc.impl_zmq' {
-    require '::zeromq'
     nova_config { 
 	'DEFAULT/rpc_zmq_bind_address':		value => $rpc_zmq_bind_address;
     	'DEFAULT/rpc_zmq_contexts':		value => $rpc_zmq_contexts;
@@ -341,6 +340,7 @@ class nova(
     	'DEFAULT/rpc_zmq_matchmaker':		value => $rpc_zmq_matchmaker;
     	'DEFAULT/matchmaker_ringfile':		value => $matchmaker_ringfile;
     	'DEFAULT/rpc_zmq_port':			value => $rpc_zmq_port;
+#        require => Service['nova-rpc-zmq-receiver']
     }
 
   }
