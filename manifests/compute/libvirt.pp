@@ -21,6 +21,8 @@ class nova::compute::libvirt (
   $libvirt_type      = 'kvm',
   $vncserver_listen  = '127.0.0.1',
   $migration_support = false
+  $libvirt_images_type = 'default',
+  $libvirt_images_volume_group = 'Nova_Volumes',
 ) {
 
   include nova::params
@@ -67,10 +69,22 @@ if !defined(Service[$::nova::params::libvirt_service_name]) {
     require  => Package['libvirt'],
   }
 }
-  nova_config {
-    'DEFAULT/compute_driver':   value => 'libvirt.LibvirtDriver';
-    'DEFAULT/libvirt_type':     value => $libvirt_type;
-    'DEFAULT/connection_type':  value => 'libvirt';
-    'DEFAULT/vncserver_listen': value => $vncserver_listen;
+
+  if $libvirt_images_type == 'lvm' {
+    nova_config {
+      'DEFAULT/compute_driver':   value => 'libvirt.LibvirtDriver';
+      'DEFAULT/libvirt_type':     value => $libvirt_type;
+      'DEFAULT/connection_type':  value => 'libvirt';
+      'DEFAULT/vncserver_listen': value => $vncserver_listen;
+      'DEFAULT/libvirt_images_type': value => $libvirt_images_type;
+      'DEFAULT/libvirt_images_volume_group': value => $libvirt_images_volume_group;
+    }
+  } else {
+    nova_config {
+      'DEFAULT/compute_driver':   value => 'libvirt.LibvirtDriver';
+      'DEFAULT/libvirt_type':     value => $libvirt_type;
+      'DEFAULT/connection_type':  value => 'libvirt';
+      'DEFAULT/vncserver_listen': value => $vncserver_listen;
+    }
   }
 }
