@@ -20,7 +20,7 @@
 class nova::compute::libvirt (
   $libvirt_type      = 'kvm',
   $vncserver_listen  = '127.0.0.1',
-  $migration_support = false
+  $migration_support = false,
   $libvirt_images_type = 'default',
   $libvirt_images_volume_group = 'Nova_Volumes',
 ) {
