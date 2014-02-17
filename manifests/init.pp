@@ -245,6 +245,7 @@ class nova(
   user { 'nova':
     ensure  => present,
     gid     => 'nova',
+    groups  => ['openstack'],
     system  => true,
     require => Package['nova-common'],
   }
