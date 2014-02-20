@@ -100,8 +100,8 @@ class nova::keystone::auth(
   keystone_endpoint { "${region}/${auth_name}":
     ensure       => present,
     public_url   => "${public_protocol}://${public_address}:${compute_port}/${compute_version}/%(tenant_id)s",
-    admin_url    => "http://${admin_address}:${compute_port}/${compute_version}/%(tenant_id)s",
-    internal_url => "http://${internal_address}:${compute_port}/${compute_version}/%(tenant_id)s",
+    admin_url    => "${public_protocol}://${admin_address}:${compute_port}/${compute_version}/%(tenant_id)s",
+    internal_url => "${public_protocol}://${internal_address}:${compute_port}/${compute_version}/%(tenant_id)s",
   }
 
   if $configure_ec2_endpoint {
