@@ -158,6 +158,7 @@ class nova(
   # these glance params should be optional
   # this should probably just be configured as a glance client
   $glance_api_servers = 'localhost:9292',
+  $glance_protocol = undef,
   $memcached_servers = false,
   $rabbit_host = 'localhost',
   $rabbit_hosts = false,
@@ -302,6 +303,9 @@ class nova(
   if $image_service == 'nova.image.glance.GlanceImageService' {
     if $glance_api_servers {
       nova_config { 'DEFAULT/glance_api_servers': value => $glance_api_servers }
+    }
+    if $glance_protocol {
+      nova_config { 'DEFAULT/glance_protocol': value => $glance_protocol }
     }
   }
 
