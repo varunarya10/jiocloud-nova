@@ -110,6 +110,7 @@ class nova::api(
   $workers           = $::processorcount,
   $sync_db           = true,
   $neutron_metadata_proxy_shared_secret = undef,
+  $port_to_apache = false,
   $ratelimits        = undef,
   $ratelimits_factory =
     'nova.api.openstack.compute.limits:RateLimitingMiddleware.factory'
@@ -124,20 +125,32 @@ class nova::api(
   Package<| title == 'nova-common' |> -> Class['nova::api']
 
   Nova_paste_api_ini<| |> ~> Exec['post-nova_config']
-  Nova_paste_api_ini<| |> ~> Service['nova-api']
+#FIXME: workround for ssl 
+  if $port_to_apache {
+     Nova_paste_api_ini<| |> ~> Service['httpd']
+     Exec['post-nova_config'] ~> Service['httpd']
+  } else {
+     Nova_paste_api_ini<| |> ~> Service['nova-api']
+  }
 
   if $auth_strategy {
     warning('Parameter auth_strategy is not used in class nova::api and going to be deprecated.')
   }
+  
+
+if $port_to_apache {
+    $api_enabled = false 
+} else {
+    $api_enabled = true
+}
 
   nova::generic_service { 'api':
-    enabled        => $enabled,
+    enabled        => $api_enabled,
     ensure_package => $ensure_package,
     package_name   => $::nova::params::api_package_name,
     service_name   => $::nova::params::api_service_name,
     subscribe      => Class['cinder::client'],
   }
-
   nova_config {
     'DEFAULT/enabled_apis':          value => $enabled_apis;
     'DEFAULT/volume_api_class':      value => $volume_api_class;
