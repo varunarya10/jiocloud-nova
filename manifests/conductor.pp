@@ -15,7 +15,8 @@
 class nova::conductor(
   $enabled        = false,
   $ensure_package = 'present',
-  $workers	  = undef
+  $workers	  = undef,
+  $use_local	  = undef,
 ) {
 
   include nova::params
@@ -29,6 +30,10 @@ class nova::conductor(
   
   if $workers {
     nova_config { 'conductor/workers': value => $workers }
+  }
+
+  if $use_local {
+    nova_config { 'conductor/use_local': value => $use_local }
   }
 
 }
