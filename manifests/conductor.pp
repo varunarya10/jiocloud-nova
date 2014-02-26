@@ -14,7 +14,7 @@
 #
 class nova::conductor(
   $enabled        = false,
-  $ensure_package = 'present'
+  $ensure_package = 'present',
   $workers	  = undef
 ) {
 
