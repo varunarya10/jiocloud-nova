@@ -80,9 +80,8 @@ class nova::compute (
     }
   }
 
-  if $use_local {
-    nova_config { 'conductor/use_local': value => $use_local }
-  }
+  nova_config { 'conductor/use_local': value => $use_local }
+    
 
   nova_config {
     'DEFAULT/vnc_enabled':                   value => $vnc_enabled;
