@@ -191,7 +191,6 @@ class nova(
   $periodic_interval = '60',
   $report_interval = '10',
   $rootwrap_config = '/etc/nova/rootwrap.conf',
-  $use_local	= undef,
   # deprecated in folsom
   #$root_helper = $::nova::params::root_helper,
   $monitoring_notifications = false,
@@ -299,9 +298,6 @@ class nova(
     }
   }
 
-  if $use_local {
-    nova_config { 'conductor/use_local': value => $use_local }
-  }
 
   nova_config { 'DEFAULT/image_service': value => $image_service }
 

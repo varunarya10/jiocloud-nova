@@ -64,7 +64,8 @@ class nova::compute (
   $force_config_drive            = false,
   $virtio_nic                    = false,
   $neutron_enabled               = true,
-  $network_device_mtu            = undef
+  $network_device_mtu            = undef,
+  $use_local			 = false,
 ) {
 
   include nova::params
@@ -77,6 +78,10 @@ class nova::compute (
         'DEFAULT/novncproxy_base_url': value => $vncproxy_base_url;
       }
     }
+  }
+
+  if $use_local {
+    nova_config { 'conductor/use_local': value => $use_local }
   }
 
   nova_config {
