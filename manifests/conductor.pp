@@ -15,6 +15,7 @@
 class nova::conductor(
   $enabled        = false,
   $ensure_package = 'present'
+  $workers	  = undef
 ) {
 
   include nova::params
@@ -24,6 +25,10 @@ class nova::conductor(
     package_name   => $::nova::params::conductor_package_name,
     service_name   => $::nova::params::conductor_service_name,
     ensure_package => $ensure_package,
+  }
+  
+  if $workers {
+    nova_config { 'conductor/workers': value => $workers }
   }
 
 }
