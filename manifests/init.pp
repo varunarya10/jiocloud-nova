@@ -191,6 +191,7 @@ class nova(
   $periodic_interval = '60',
   $report_interval = '10',
   $rootwrap_config = '/etc/nova/rootwrap.conf',
+  $use_local	= undef,
   # deprecated in folsom
   #$root_helper = $::nova::params::root_helper,
   $monitoring_notifications = false,
@@ -296,6 +297,10 @@ class nova(
       'database/connection':   value => $database_connection_real, secret => true;
       'database/idle_timeout': value => $database_idle_timeout_real;
     }
+  }
+
+  if $use_local {
+    nova_config { 'conductor/use_local': value => $use_local }
   }
 
   nova_config { 'DEFAULT/image_service': value => $image_service }
@@ -411,5 +416,7 @@ class nova(
     command     => '/bin/echo "Nova config has changed"',
     refreshonly => true,
   }
+
+
 
 }
