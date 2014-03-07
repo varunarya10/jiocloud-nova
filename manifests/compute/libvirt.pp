@@ -23,6 +23,7 @@ class nova::compute::libvirt (
   $migration_support = false,
   $libvirt_images_type = 'default',
   $libvirt_images_volume_group = 'Nova_Volumes',
+  $snapshot_image_format = false,
 ) {
 
   include nova::params
@@ -87,5 +88,9 @@ if !defined(Service[$::nova::params::libvirt_service_name]) {
       'DEFAULT/connection_type':  value => 'libvirt';
       'DEFAULT/vncserver_listen': value => $vncserver_listen;
     }
+  }
+
+  if $snapshot_image_format {
+     nova_config { 'DEFAULT/snapshot_image_format': value => $snapshot_image_format; }
   }
 }
