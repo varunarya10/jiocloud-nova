@@ -83,6 +83,7 @@ if !defined(Service[$::nova::params::libvirt_service_name]) {
     nova_config {
       'DEFAULT/compute_driver':   value => 'libvirt.LibvirtDriver';
       'DEFAULT/libvirt_type':     value => $libvirt_type;
+      'DEFAULT/libvirt_images_type': value => $libvirt_images_type;
       'DEFAULT/connection_type':  value => 'libvirt';
       'DEFAULT/vncserver_listen': value => $vncserver_listen;
     }
