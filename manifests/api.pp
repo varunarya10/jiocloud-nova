@@ -111,6 +111,8 @@ class nova::api(
   $sync_db           = true,
   $neutron_metadata_proxy_shared_secret = undef,
   $port_to_apache = false,
+  $osapi_compute_listen_port	= undef,
+  $ec2_listen_port	= undef,
   $ratelimits        = undef,
   $ratelimits_factory =
     'nova.api.openstack.compute.limits:RateLimitingMiddleware.factory'
@@ -136,7 +138,18 @@ class nova::api(
   if $auth_strategy {
     warning('Parameter auth_strategy is not used in class nova::api and going to be deprecated.')
   }
-  
+ 
+  if $osapi_compute_listen_port {
+    nova_config {
+	'DEFAULT/osapi_compute_listen_port': value => $osapi_compute_listen_port;
+    }
+  } 
+
+  if $ec2_listen_port {
+    nova_config {
+	'DEFAULT/ec2_listen_port': value => $ec2_listen_port;
+    }
+  }
 
 if $port_to_apache {
     $api_enabled = false 
