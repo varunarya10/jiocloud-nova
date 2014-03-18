@@ -111,7 +111,7 @@ class nova::api(
   $sync_db           = true,
   $neutron_metadata_proxy_shared_secret = undef,
   $port_to_apache = false,
-  $osapi_compute_listen_port	= 8774,
+  $osapi_compute_listen_port	= undef,
   $ec2_listen_port	= undef,
   $ratelimits        = undef,
   $ratelimits_factory =
