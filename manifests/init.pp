@@ -196,6 +196,7 @@ class nova(
   $monitoring_notifications = false,
   $use_syslog = false,
   $log_facility = 'LOG_USER',
+  $default_floating_pool         = undef,
 ) inherits nova::params {
 
   # all nova_config resources should be applied
@@ -271,6 +272,12 @@ class nova(
     $database_connection_real = $sql_connection
   } else {
     $database_connection_real = $database_connection
+  }
+
+  if $default_floating_pool {
+    nova_config {
+        'DEFAULT/default_floating_pool':     value => $default_floating_pool;
+    }
   }
 
   if $sql_idle_timeout {

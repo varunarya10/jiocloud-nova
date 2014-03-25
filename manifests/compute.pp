@@ -66,6 +66,7 @@ class nova::compute (
   $neutron_enabled               = true,
   $network_device_mtu            = undef,
   $use_local			 = false,
+  $default_floating_pool	 = undef,
 ) {
 
   include nova::params
@@ -82,7 +83,6 @@ class nova::compute (
 
   nova_config { 'conductor/use_local': value => $use_local }
     
-
   nova_config {
     'DEFAULT/vnc_enabled':                   value => $vnc_enabled;
     'DEFAULT/vncserver_proxyclient_address': value => $vncserver_proxyclient_address;
