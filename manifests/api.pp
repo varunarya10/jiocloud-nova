@@ -113,6 +113,8 @@ class nova::api(
   $port_to_apache = false,
   $osapi_compute_listen_port	= undef,
   $ec2_listen_port	= undef,
+  $ec2_scheme	= undef,
+  $keystone_ec2_url  = undef,
   $ratelimits        = undef,
   $ratelimits_factory =
     'nova.api.openstack.compute.limits:RateLimitingMiddleware.factory'
@@ -151,6 +153,13 @@ class nova::api(
     }
   }
 
+  if $ec2_scheme {
+	nova_config { 'DEFAULT/ec2_scheme': value => $ec2_scheme; }
+  }
+
+  if $keystone_ec2_url {
+	nova_config { 'DEFAULT/keystone_ec2_url': value => $keystone_ec2_url; }
+  }
 if $port_to_apache {
     $api_enabled = false 
 } else {
