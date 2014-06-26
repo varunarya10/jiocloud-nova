@@ -34,12 +34,14 @@ class nova::zeromq::config inherits zeromq {
 ### Adding group openstack and adding nova, glance, cinder to it
 ### Workaround to use same zmq receiver for all components 
 
+  ensure_resource('user',['nova','cinder','glance'],{'ensure' => 'present' })
+
   group { 'openstack':
     	name	=> 'openstack',
 	ensure	=> present,
 	gid	=> '200',
 	system	=> true,
-	members	=> ['nova'],
+	members	=> ['nova','cinder','glance'],
   }
 
 }
