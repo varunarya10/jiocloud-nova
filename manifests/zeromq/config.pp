@@ -6,7 +6,7 @@ class nova::zeromq::config inherits zeromq {
         owner   => root,
         group   => root,
         mode    => 0644,
-        source => "$puppet_master_files/openstack/all/_etc_init_nova-rpc-zmq-receiver.conf",
+        source => "puppet:///modules/nova/_etc_init_nova-rpc-zmq-receiver.conf",
   }    
 
   file { '/etc/init.d/nova-rpc-zmq-receiver':
@@ -28,20 +28,18 @@ class nova::zeromq::config inherits zeromq {
         owner   => root,
         group   => root,
         mode    => 0644,
-        content => template("zeromq/matchmaker.json.erb"),
+        content => template("nova/matchmaker.json.erb"),
   }
   
 ### Adding group openstack and adding nova, glance, cinder to it
 ### Workaround to use same zmq receiver for all components 
-
-  ensure_resource('user',['nova','cinder','glance'],{'ensure' => 'present' })
 
   group { 'openstack':
     	name	=> 'openstack',
 	ensure	=> present,
 	gid	=> '200',
 	system	=> true,
-	members	=> ['nova','cinder','glance'],
+	members	=> ['nova'],
   }
 
 }
