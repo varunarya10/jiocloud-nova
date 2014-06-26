@@ -1,0 +1,11 @@
+{
+<% if @nova_scheduler_nodes.any? %>  "scheduler": ["<%= @nova_scheduler_nodes.join("\",\"").chomp %>"],<% end %>
+<% if @nova_consoleauth_nodes.any? %>  "consoleauth": ["<%= @nova_consoleauth_nodes.join("\",\"") %>"],<% end %>
+<% if @conductor_nodes.any? %>  "conductor": ["<%= @conductor_nodes.join("\",\"") %>"],<% end %>
+<% if @nova_cert_nodes.any? %>  "cert": ["<%= @nova_cert_nodes.join("\",\"") %>"],<% end %>
+<% if @cinder_volume_nodes.any? %>  "cinder-volume": ["<%= @cinder_volume_nodes.join("\",\"") %>"],
+<%  @cinder_volume_nodes.each do |cv_node| %>  "cinder-volume:<%= cv_node %>": ["<%= cv_node %>"],
+<%- end -%>
+<%- end -%>
+<% if @cinder_scheduler_nodes.any? %>  "cinder-scheduler": ["<%= @cinder_scheduler_nodes.join("\",\"") %>"]<% end %>
+}
