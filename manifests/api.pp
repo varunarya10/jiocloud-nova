@@ -113,6 +113,7 @@ class nova::api(
   $port_to_apache = false,
   $osapi_compute_listen_port	= undef,
   $ec2_listen_port	= undef,
+  $metadata_listen_port = undef,
   $ec2_scheme	= undef,
   $keystone_ec2_url  = undef,
   $ratelimits        = undef,
@@ -152,6 +153,14 @@ class nova::api(
 	'DEFAULT/ec2_listen_port': value => $ec2_listen_port;
     }
   }
+
+  if $metadata_listen_port {
+    nova_config {
+	'DEFAULT/metadata_listen_port': value => $metadata_listen_port;
+    }
+  }
+
+
 
   if $ec2_scheme {
 	nova_config { 'DEFAULT/ec2_scheme': value => $ec2_scheme; }
